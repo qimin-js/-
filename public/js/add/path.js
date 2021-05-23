@@ -1,0 +1,10 @@
+let path = require('path')
+path.public = '/home/qimin/electron/matter/public';
+path.js = '/home/qimin/electron/matter/public/js'
+path.listClass = '/home/qimin/electron/matter/public/js/listClass';
+path.graphicsClass = '/home/qimin/electron/matter/public/js/graphicsClass';
+path.img = '/home/qimin/electron/matter/public/img';
+path.fun = '/home/qimin/electron/matter/public/js/fun';
+path.req = '/home/qimin/electron/matter/public/js/require';
+path.add = '/home/qimin/electron/matter/public/js/add';
+path.work = '/home/qimin/electron/matter/public/js/work';
