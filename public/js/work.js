@@ -1,21 +1,25 @@
 let path = require('path');
-let { Composite, Body, Events, Bounds } = require('matter-js');
+let { Composite, Body, Events } = require('matter-js');
 let { engine, world } = require(path.join(path.public, 'js', 'engine.js'));
-let { triangle, square } = require(path.join(path.public, 'js', 'square.js'));
+let { square } = require(path.join(path.public, 'js', 'square.js'));
 let { Ticker } = require('pixi.js');
 let { ground } = require(path.join(path.public, 'js', 'ground.js'));
 let addSqrite = require(path.join(path.fun, 'random.js'))
+const util = require('util')
 
-// engine.world.gravity.y = 0;//重力
 let collisionData = new Set();
 let sqriteId = new Set()
 let activeSqrite = square(125, 0)
+console.log(activeSqrite);
 Composite.add(world, [activeSqrite]);
 let frames = new Ticker();
 let reg;
 let id;
 let end;
-let clearSquare = new Set();//保存子模块
+let clearSquare = [];//保存子模块
+for (let i = 1; i < 17; i++) {
+    clearSquare.push([])
+}
 frames.add(function () {
     if (end == true) {
         activeSqrite = addSqrite(125, 0);
@@ -27,33 +31,38 @@ frames.add(function () {
     for (let params of engine.world.bodies) {
         if (params.isStatic == true) {
             for (let pp of params.parts) {
-                if (pp.position.y < 828 && pp.position.y > 823) {//第一行
-                    if (clearSquare.hasObj({ fa: params, chil: pp }) == true || pp.label == 'Body') continue;//避免重复添加
-                    clearSquare.add({ fa: params, chil: pp })
-                    console.log(clearSquare);
-                    // let clearSquareStr = ''
-                    // for (let p of clearSquare.values()) {
-                    //     clearSquareStr += p.chil.id + '+'
-                    // }
-                    // console.log(clearSquareStr);
+                for (let i = 1; i < 17; i++) {
+                    if (pp.position.y < 828 - (i - 1) * 50 && pp.position.y > 823 - (i - 1) * 50) {//第一行
+                        if (clearSquare[i - 1].hasObj({ fa: params, chil: pp }) == true || pp.label == 'Body') continue;//避免重复添加
+                        //hasObj只对对象的id对比，将对象展开数据太过庞大。
+                        clearSquare[i - 1].push({ fa: params, chil: pp })
+                    }
                 }
             }
         }
     }
-    if (clearSquare.size >= 10) {//删除行
-        // console.log(clearSquare);
-        for (let params of clearSquare.values()) {
-            let index = params.fa.parts.indexOf(params.chil)//删除身体的子模块
-            params.fa.parts.splice(index, 1)
-            if (params.fa.parts.length == 1) {//没有子模块，删除整体
-                Composite.remove(world, params.fa)
+    // console.log(clearSquare);
+    for (let i = 1; i < 17; i++) {
+        let topY = 828 - (i - 1) * 50;
+        if (clearSquare[i - 1].length >= 10) {//删除行
+            for (let params of clearSquare[i - 1]) {
+                let index = params.fa.parts.indexOf(params.chil)//删除身体的子模块
+                params.fa.parts.splice(index, 1)
+                if (params.fa.parts.length == 1) {//没有子模块，删除整体
+                    Composite.remove(world, params.fa)
+                }
             }
-        }
-        clearSquare = new Set()
-        // console.log(engine.world.bodies);
-        for (let params of engine.world.bodies) {
-            if (params.isStatic == true && params.id >= 12) {//避免墙下降
-                Body.translate(params, { x: 0, y: 50 })
+            clearSquare = [];
+            for (let i = 1; i < 17; i++) {
+                clearSquare.push([])
+            }
+            for (let params of engine.world.bodies) {
+                if (params.isStatic == true && params.id >= 12) {//避免墙下降
+                    for (let pp of params.parts) {
+                        if (pp.position.y > topY || pp.label == 'Body') continue;
+                        Body.translate(pp, { x: 0, y: 50 })
+                    }
+                }
             }
         }
     }
@@ -66,7 +75,7 @@ document.querySelector('body').onkeydown = function (e) {
     if (e.keyCode == 39) require(path.join(path.work, 'moveRight.js'))(activeSqrite);//右移
     if (e.keyCode == 40) require(path.join(path.work, 'rotateRight.js'))(activeSqrite, collision);//下,顺时针
     if (e.keyCode == 38) require(path.join(path.work, 'rotateLeft.js'))(activeSqrite, collision);//上，逆时针
-    if (e.keyCode == 32) engine.world.gravity.y = 3;//加速
+    if (e.keyCode == 32) engine.world.gravity.y = 10;//加速
     if (e.keyCode == 13) frames.stop()
 }
 let collision = function () {
@@ -81,19 +90,14 @@ let collision = function () {
     }
     // console.log(id);
     Events.on(engine, 'collisionActive', function (e) {//碰撞事件
-        // for (let params of e.pairs) {
-        //     if (collisionData.has(params.id) == true) continue;
-        //     console.log(params.id);
-        //     collisionData.add(params.id)
-        // }
-        // console.log(e);
         for (let params of e.pairs) {
             if (params.id.search(reg) != -1) {
-                end = true;
-                // console.log('结束了')
-                // console.log(engine.world);
+                engine.world.gravity.y = 1;//减速
+                activeSqrite.isStatic = true;//静止
+                Events.off(engine, 'collisionActive')//关闭事件，等待frames重新开启
                 Body.setAngle(activeSqrite, activeSqrite.degree)//旋转微调
-                let endPos = { x: activeSqrite.beginPos.x + activeSqrite.move.x, y: activeSqrite.position.y };
+                let endPos = { x: activeSqrite.beginPos.x + activeSqrite.move.x, y: activeSqrite.positionPrev.y };
+                end = true;
                 if (activeSqrite.name == 'square' || activeSqrite.name == 'l') {
                     endPos.x -= 25
                     Body.setPosition(activeSqrite, endPos)//位置微调
@@ -107,9 +111,6 @@ let collision = function () {
                     Body.setPosition(activeSqrite, endPos)//位置微调
                     activeSqrite.endPos = endPos
                 }
-                engine.world.gravity.y = 1;//减速
-                activeSqrite.isStatic = true;//静止
-                Events.off(engine, 'collisionActive')//关闭事件，等待frames重新开启
                 break;
             }
         }

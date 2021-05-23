@@ -1,4 +1,4 @@
-let { Composite, Body, Events, Bounds } = require('matter-js');
+let { Composite, Body, Events } = require('matter-js');
 let path = require('path')
 let { engine, world } = require(path.join(path.public, 'js', 'engine.js'));
 

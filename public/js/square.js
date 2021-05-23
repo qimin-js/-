@@ -1,6 +1,5 @@
-let { Bodies, Body, Composite, Composites } = require('matter-js');
+let { Bodies, Body, Composite } = require('matter-js');
 let path = require('path');
-const { ground } = require('./ground');
 let config = {
     friction: 0,//摩擦力
     frictionStatic: 0,//静止摩擦力
@@ -38,10 +37,10 @@ module.exports.square = function (x, y) {//正方形
     return all
 }
 module.exports.line = function (x, y) {//长条
-    let center = Bodies.rectangle(x, y, 50, 50);
-    let left = Bodies.rectangle(x - 50, y, 50, 50)
-    let right = Bodies.rectangle(x + 50, y, 50, 50);
-    let right2 = Bodies.rectangle(x + 100, y, 50, 50);
+    let center = Bodies.rectangle(x, y, 50, 50, { render: { fillStyle: '#777777' } });
+    let left = Bodies.rectangle(x - 50, y, 50, 50, { render: { fillStyle: '#777777' } })
+    let right = Bodies.rectangle(x + 50, y, 50, 50, { render: { fillStyle: '#777777' } });
+    let right2 = Bodies.rectangle(x + 100, y, 50, 50, { render: { fillStyle: '#777777' } });
     let all = Body.create(Object.assign({ parts: [center, left, right, right2] }, config))
     Body.setCentre(all, { x: -25, y: 0 }, true)
     all.degree = 0;
@@ -52,10 +51,10 @@ module.exports.line = function (x, y) {//长条
     return all
 }
 module.exports.l = function (x, y) {//L
-    let center = Bodies.rectangle(x, y, 50, 50);
-    let left = Bodies.rectangle(x - 50, y, 50, 50)
-    let up = Bodies.rectangle(x, y - 50, 50, 50);
-    let up2 = Bodies.rectangle(x, y - 100, 50, 50);
+    let center = Bodies.rectangle(x, y, 50, 50, { render: { fillStyle: '#8b73d3' } });
+    let left = Bodies.rectangle(x - 50, y, 50, 50, { render: { fillStyle: '#8b73d3' } })
+    let up = Bodies.rectangle(x, y - 50, 50, 50, { render: { fillStyle: '#8b73d3' } });
+    let up2 = Bodies.rectangle(x, y - 100, 50, 50, { render: { fillStyle: '#8b73d3' } });
     let all = Body.create(Object.assign({ parts: [center, left, up, up2] }, config))
     Body.setCentre(all, { x: -12.5, y: 12.5 }, true)
     all.degree = 0;
@@ -66,10 +65,10 @@ module.exports.l = function (x, y) {//L
     return all
 }
 module.exports.filpL = function (x, y) {//反的L
-    let center = Bodies.rectangle(x, y, 50, 50);
-    let right = Bodies.rectangle(x + 50, y, 50, 50)
-    let up = Bodies.rectangle(x, y - 50, 50, 50);
-    let up2 = Bodies.rectangle(x, y - 100, 50, 50);
+    let center = Bodies.rectangle(x, y, 50, 50, { render: { fillStyle: '#d3738e' } });
+    let right = Bodies.rectangle(x + 50, y, 50, 50, { render: { fillStyle: '#d3738e' } })
+    let up = Bodies.rectangle(x, y - 50, 50, 50, { render: { fillStyle: '#d3738e' } });
+    let up2 = Bodies.rectangle(x, y - 100, 50, 50, { render: { fillStyle: '#d3738e' } });
     let all = Body.create(Object.assign({ parts: [center, right, up, up2] }, config))
     Body.setCentre(all, { x: 12.5, y: 12.5 }, true)
     all.degree = 0;
@@ -80,10 +79,10 @@ module.exports.filpL = function (x, y) {//反的L
     return all
 }
 module.exports.z = function (x, y) {//Z
-    let center = Bodies.rectangle(x, y, 50, 50);
-    let left = Bodies.rectangle(x - 50, y, 50, 50)
-    let up = Bodies.rectangle(x, y - 50, 50, 50);
-    let rightUp = Bodies.rectangle(x + 50, y - 50, 50, 50);
+    let center = Bodies.rectangle(x, y, 50, 50, { render: { fillStyle: '#73cd7a' } });
+    let left = Bodies.rectangle(x - 50, y, 50, 50, { render: { fillStyle: '#73cd7a' } })
+    let up = Bodies.rectangle(x, y - 50, 50, 50, { render: { fillStyle: '#73cd7a' } });
+    let rightUp = Bodies.rectangle(x + 50, y - 50, 50, 50, { render: { fillStyle: '#73cd7a' } });
     let all = Body.create(Object.assign({ parts: [center, left, up, rightUp] }, config))
     Body.setCentre(all, { x: 0, y: 25 }, true)
     all.degree = 0;
@@ -94,10 +93,10 @@ module.exports.z = function (x, y) {//Z
     return all
 }
 module.exports.filpZ = function (x, y) {//反的Z
-    let center = Bodies.rectangle(x, y, 50, 50);
-    let right = Bodies.rectangle(x + 50, y, 50, 50)
-    let up = Bodies.rectangle(x, y - 50, 50, 50);
-    let leftUp = Bodies.rectangle(x - 50, y - 50, 50, 50);
+    let center = Bodies.rectangle(x, y, 50, 50, { render: { fillStyle: '#bfcd73' } });
+    let right = Bodies.rectangle(x + 50, y, 50, 50, { render: { fillStyle: '#bfcd73' } })
+    let up = Bodies.rectangle(x, y - 50, 50, 50, { render: { fillStyle: '#bfcd73' } });
+    let leftUp = Bodies.rectangle(x - 50, y - 50, 50, 50, { render: { fillStyle: '#bfcd73' } });
     let all = Body.create(Object.assign({ parts: [center, right, up, leftUp] }, config))
     Body.setCentre(all, { x: 0, y: 25 }, true)
     all.degree = 0;

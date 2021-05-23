@@ -1,4 +1,4 @@
-let { Engine, Render, World, Bodies, Constraint, Composites, MouseConstraint, Body } = require('matter-js');
+let { Engine, Render } = require('matter-js');
 let path = require('path')
 let { engine } = require(path.join(path.public, 'js', 'engine.js'))
 let render = Render.create({
