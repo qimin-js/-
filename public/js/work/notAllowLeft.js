@@ -8,7 +8,8 @@ let notAllowActiveSquareChil = { position: { x: 0, y: 0 } }
 let notAllowActiveSquare;
 
 module.exports = function (activeSqrite, pp) {
-    if (notAllowActiveSquareChil.position.x - notAllowSquare.position.x < 70.71 && notAllowActiveSquareChil.position.x - notAllowSquare.position.x > 0 && notAllowActiveSquare.isStatic == false && notAllowActiveSquareChil.position.y - notAllowSquare.position.y > -50) {
+    // console.log(notAllowActiveSquareChil.position.x - notAllowSquare.position.x, notAllowActiveSquareChil.id, notAllowSquare.id);
+    if (notAllowActiveSquareChil.position.x - notAllowSquare.position.x < 70.71 && notAllowActiveSquareChil.position.x - notAllowSquare.position.x > 0 && notAllowActiveSquare.isStatic == false && notAllowActiveSquareChil.position.y - notAllowSquare.position.y > -50 && notAllowActiveSquareChil.position.y - notAllowSquare.position.y < 49) {
         return
     } else {
         notAllowLeft = false;
@@ -20,7 +21,7 @@ module.exports = function (activeSqrite, pp) {
         // console.log(activeSqriteParams.id, activeSqriteParams.id + '');
         let IdToStr = pp.id + ''
         if (activeSqriteParams.label == 'Body' || pp.id <= 17 || IdToStr.search(reg) != -1 || pp.label == 'Body') continue
-        if (activeSqriteParams.position.x - pp.position.x < 70.71 && activeSqriteParams.position.x - pp.position.x > 0 && activeSqriteParams.position.y - pp.position.y > -50) {
+        if (activeSqriteParams.position.x - pp.position.x < 70.71 && activeSqriteParams.position.x - pp.position.x > 0 && activeSqriteParams.position.y - pp.position.y > -50 && activeSqriteParams.position.y - pp.position.y < 49) {
             console.log('禁止', pp.id, activeSqriteParams.id, 'y距离', activeSqriteParams.position.y - pp.position.y);
             notAllowLeft = true;
             notAllowSquare = pp

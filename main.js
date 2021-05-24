@@ -2,14 +2,14 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 let win;
 let config = {
-    width: 1900,
+    width: 1500,
     height: 1000,
     // show: false,//窗口隐藏jk e
     webPreferences: {
         preload: path.join(__dirname, 'preload.js')
     },
     // frame: false,//无边框
-    backgroundColor: '#2e2c29',//软件加载的时候会使用这个背景颜色
+    backgroundColor: '#009fcc',//软件加载的时候会使用这个背景颜色
     webPreferences: {
         nodeIntegration: true,//使前端也能使用node.js
         enableRemoteModule: true,

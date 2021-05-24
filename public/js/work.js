@@ -8,17 +8,13 @@ let { addSqrite, randomPosX } = require(path.join(path.fun, 'random.js'))
 let adjustmentMove = require(path.join(path.work, 'adjustmentMove.js'))
 let spliceId = require(path.join(path.work, 'spliceId.js'))
 let notAllowLeftFun = require(path.join(path.work, 'notAllowLeft.js'))
-// const util = require('util')
+let notAllowRightFun = require(path.join(path.work, 'notAllowRight.js'))
+let gameOver = require(path.join(path.work, 'gameOver.js'))
 
-let collisionData = new Set();
-let sqriteId = new Set()
-let activeSqrite = square(randomPosX(), 0)
-console.log(activeSqrite);
-Composite.add(world, [activeSqrite]);
+let activeSqrite;
 let frames = new Ticker();
 let reg;
-let id;
-let end;
+let end = true;
 let notAllowRight = false;
 let notAllowLeft = false;
 let clearSquare = [];//保存子模块
@@ -26,6 +22,7 @@ for (let i = 1; i < 17; i++) {
     clearSquare.push([])
 }
 frames.add(function () {
+    // console.log(engine.world.gravity.y);
     if (end == true) {
         activeSqrite = addSqrite(randomPosX(), 0);
         Composite.add(engine.world, [activeSqrite]);
@@ -44,7 +41,7 @@ frames.add(function () {
                 }
             }
             notAllowLeft = notAllowLeftFun(activeSqrite, pp);//防止左移到别人身体里
-
+            notAllowRight = notAllowRightFun(activeSqrite, pp);//防止左移到别人身体里
         }
     }
     // if (notAllowLeft == true) console.log(notAllowLeft);
@@ -66,7 +63,7 @@ frames.add(function () {
             }
             for (let params of engine.world.bodies) {
                 if (params.isStatic == true && params.id >= 17) {//避免墙下降
-                    console.log(params.id);
+                    // console.log(params.id);
                     for (let pp of params.parts) {
                         if (pp.position.y > topY || pp.label == 'Body') continue;
                         Body.translate(pp, { x: 0, y: 50 })
@@ -76,7 +73,7 @@ frames.add(function () {
         }
     }
 })
-frames.start()
+// frames.start()
 
 document.querySelector('body').onkeydown = function (e) {
     // console.log(activeSqrite);
@@ -99,16 +96,17 @@ let collision = function () {
                 adjustmentMove(activeSqrite)//位置微调
                 // console.log(params.bodyA.id, params.bodyB.id, absY, absX, absY >= 50, absX >= 10);
                 if (absY >= 50 || absX >= 10) continue//只允许上下边碰撞
-                console.log('通过', params.bodyA.id, params.bodyB.id, absY, absX);
+                // console.log('通过', params.bodyA.id, params.bodyB.id, absY, absX);
                 engine.world.gravity.y = 1;//减速
                 activeSqrite.isStatic = true;//静止
                 Events.off(engine, 'collisionActive')//关闭事件，等待frames重新开启
                 Body.setAngle(activeSqrite, activeSqrite.degree)//旋转微调
                 adjustmentMove(activeSqrite)//位置微调
+                gameOver(activeSqrite, frames)
                 end = true;//传递信息
                 break;
             }
         }
     })
 }
-collision()
+module.exports = frames

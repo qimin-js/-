@@ -17,7 +17,7 @@ for (let i = 1; i < 12; i++) {
 }
 let groundLeft = Bodies.rectangle(0, 450, 96, 900)
 let groundRight = Bodies.rectangle(600, 450, 96, 900)
-console.log(groundDown.id, groundLeft.id, groundRight);
+// console.log(groundDown.id, groundLeft.id, groundRight);
 let allGround = groundDown.push(groundLeft)
 allGround = groundDown.push(groundRight)
 let ground = Body.create(Object.assign({ parts: groundDown }, config))

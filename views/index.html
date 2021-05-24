@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>俄罗斯方块</title>
     <script>
         window.$ = window.jQuery = require("/home/qimin/electron/matter/public/js/require/jquery.min.js");
     </script>
@@ -15,9 +15,23 @@
               margin: 0px;
           }
       </style>
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
-    <div id="canvasArea1">
+    <div id="canvasArea1" style=" width: 600px; height: 900px;" class=" canvasArea1 rounded-md relative border-2 border-gray-500 bg-purple-200">
+        <div class="introduction flex justify-center flex-wrap content-center w-full h-full">
+            <div class=" name w-full content-center w-60 font-medium text-5xl text-yellow-600 text-center">
+                俄罗斯方块
+            </div>
+            <div class=" tt w-full  border-red-500 text-center mt-10">
+                游戏介绍：<br>
+                    方向键上：方块逆时针旋转<br>
+                    方向键下：方块顺时针旋转<br>
+                    方向键左右：移动<br>
+                    空格键：加速<br>
+            </div>
+            <button id="start" class="start w-32 bg-blue-400 rounded-md mt-4">开始</button>
+        </div>
         <div id="canvasArea2">
 
         </div>
@@ -26,7 +40,7 @@
     <script type="module" src="../public/js/config.js"></script>
     <script type="module" src="../public/js/engine.js"></script>
     <script type="module" src="../public/js/rander.js"></script>
-    <script type="module" src="../public/js/work.js"></script>
+    <!-- <script type="module" src="../public/js/work.js"></script> -->
     <!-- <script type="module" src="../public/js/anime.js" ></script> -->
 </body>
 </html>
