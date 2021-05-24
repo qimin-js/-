@@ -9,7 +9,7 @@ module.exports = function (activeSqrite, collision) {
         if (params.position.x <= 26 && params.position.x >= 24) {//判断有方块在边缘。
             require(path.join(path.work, 'moveRight.js'))(activeSqrite)
         }
-        if (params.position.x < 578 && params.position.x > 576) {//右边缘
+        if (params.position.x < 576 && params.position.x > 574) {//右边缘
             require(path.join(path.work, 'moveLeft.js'))(activeSqrite)
         }
         // console.log(params.position.x);

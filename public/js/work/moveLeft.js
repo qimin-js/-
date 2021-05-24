@@ -7,6 +7,6 @@ module.exports = function (activeSqrite) {
             return;//在边缘不移动
         }
     }
-    Body.translate(activeSqrite, { x: -50.3, y: 0 })
-    activeSqrite.move.x -= 50.3
+    Body.translate(activeSqrite, { x: -50, y: 0 })
+    activeSqrite.move.x -= 50
 }

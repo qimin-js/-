@@ -6,7 +6,7 @@ let render = Render.create({
     element: document.querySelector('#canvasArea2'),
     enableSleeping: true,
     options: {
-        width: 606,
+        width: 600,
         height: 900,
         wireframes: false,
         background: '#ffffff',
